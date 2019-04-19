@@ -130,7 +130,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         [ColorUsage(true, true)]
         public Color backgroundColorHDR = new Color(0.025f, 0.07f, 0.19f, 0.0f);
         public bool clearDepth = true;
-
+        
 
         [Tooltip("LayerMask HDRP uses for Volume interpolation for this Camera.")]
         public LayerMask volumeLayerMask = 1;

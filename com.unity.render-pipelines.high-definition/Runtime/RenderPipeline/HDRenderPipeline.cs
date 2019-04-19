@@ -397,7 +397,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // It's done here because we know every HDRP assets have been imported before
             (GraphicsSettings.renderPipelineAsset as HDRenderPipelineAsset).renderPipelineResources?.UpgradeIfNeeded();
         }
-
+        
         void ValidateResources()
         {
             var resources = (GraphicsSettings.renderPipelineAsset as HDRenderPipelineAsset).renderPipelineResources;
@@ -448,7 +448,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
             if(m_Asset.currentPlatformRenderPipelineSettings.lowresTransparentSettings.enabled)
             {
-                // We need R16G16B16A16_SFloat as we need a proper alpha channel for compositing.
+                // We need R16G16B16A16_SFloat as we need a proper alpha channel for compositing. 
                 m_LowResTransparentBuffer = RTHandles.Alloc(Vector2.one * 0.5f, filterMode: FilterMode.Point, colorFormat: GraphicsFormat.R16G16B16A16_SFloat, enableRandomWrite: true, xrInstancing: true, useDynamicScale: true, name: "Low res transparent");
             }
 
@@ -653,7 +653,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             {
                 m_Blit.EnableKeyword("DISABLE_TEXTURE2D_X_ARRAY");
                 m_BlitTexArray = CoreUtils.CreateEngineMaterial(m_Asset.renderPipelineResources.shaders.blitPS);
-            }
+        }
         }
 
         void InitializeRenderStateBlocks()
@@ -1586,7 +1586,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 RenderObjectsMotionVectors(cullingResults, hdCamera, renderContext, cmd);
             }
 
-
             // Now that all depths have been rendered, resolve the depth buffer
             m_SharedRTManager.ResolveSharedRT(cmd, hdCamera);
 
@@ -1596,10 +1595,10 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // This reduce lifteime of stencil bit
             DBufferNormalPatch(hdCamera, cmd, renderContext, cullingResults);
 
-    #if ENABLE_RAYTRACING
+#if ENABLE_RAYTRACING
             bool validIndirectDiffuse = m_RaytracingIndirectDiffuse.ValidIndirectDiffuseState();
             cmd.SetGlobalInt(HDShaderIDs._RaytracedIndirectDiffuse, validIndirectDiffuse ? 1 : 0);
-    #endif
+#endif
 
             RenderGBuffer(cullingResults, hdCamera, renderContext, cmd);
 
@@ -1679,11 +1678,11 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 #endif
 
                 // Evaluate raytraced area shadows if required
-                    bool areaShadowsRendered = false;
+                bool areaShadowsRendered = false;
 #if ENABLE_RAYTRACING
-                    areaShadowsRendered = m_RaytracingShadows.RenderAreaShadows(hdCamera, cmd, renderContext, m_FrameCount);
+                areaShadowsRendered = m_RaytracingShadows.RenderAreaShadows(hdCamera, cmd, renderContext, m_FrameCount);
 #endif
-                    cmd.SetGlobalInt(HDShaderIDs._RaytracedAreaShadow, areaShadowsRendered ? 1 : 0);
+                cmd.SetGlobalInt(HDShaderIDs._RaytracedAreaShadow, areaShadowsRendered ? 1 : 0);
 
 
                 StopStereoRendering(cmd, renderContext, camera);
@@ -1765,10 +1764,10 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                     {
                         m_LightLoop.BuildGPULightLists(hdCamera, cmd, m_SharedRTManager.GetDepthStencilBuffer(hdCamera.frameSettings.IsEnabled(FrameSettingsField.MSAA)), m_SharedRTManager.GetStencilBufferCopy(), m_SkyManager.IsLightingSkyValid());
                     }
-
+                    
                     RenderScreenSpaceShadows();
                 }
-
+                
                 // Contact shadows needs the light loop so we do them after the build light list
                 void RenderScreenSpaceShadows()
                 {
@@ -1783,7 +1782,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                             var firstMipOffsetY = m_SharedRTManager.GetDepthBufferMipChainInfo().mipLevelOffsets[1].y;
                             m_LightLoop.RenderScreenSpaceShadows(hdCamera, m_ScreenSpaceShadowsBuffer, hdCamera.frameSettings.IsEnabled(FrameSettingsField.MSAA) ? m_SharedRTManager.GetDepthValuesTexture() : m_SharedRTManager.GetDepthTexture(), firstMipOffsetY, asyncCmd);
                         }
-                }
+                    }
                     else
                     {
                         HDUtils.CheckRTCreated(m_ScreenSpaceShadowsBuffer);
@@ -1931,7 +1930,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // Because of this, we need another blit here to the final render target at the right viewport.
                 if (Debug.isDebugBuild || aovRequest.isValid)
             {
-                    hdCamera.ExecuteCaptureActions(m_IntermediateAfterPostProcessBuffer, cmd);
+                hdCamera.ExecuteCaptureActions(m_IntermediateAfterPostProcessBuffer, cmd);
 
                 StartStereoRendering(cmd, renderContext, camera);
 
@@ -1955,7 +1954,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 renderContext.StereoEndRender(camera);
             }
 
-                // Send all required graphics buffer to client systems.
+            // Send all required graphics buffer to client systems.
             SendGraphicsBuffers(cmd, hdCamera);
 
             // Due to our RT handle system we don't write into the backbuffer depth buffer (as our depth buffer can be bigger than the one provided)
@@ -2881,9 +2880,9 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                             // It doesn't really matter what gets bound here since the color mask state set will prevent this from ever being written to. However, we still need to bind something
                             // to avoid warnings about unbound render targets. The following rendertarget could really be anything if renderVelocitiesForTransparent, here the normal buffer
                             // as it is guaranteed to exist and to have the same size.
-                            // to avoid warnings about unbound render targets.
+                            // to avoid warnings about unbound render targets. 
                             : m_SharedRTManager.GetNormalBuffer();
-
+                                                    
 
                         HDUtils.SetRenderTarget(cmd, m_MRTTransparentMotionVec, m_SharedRTManager.GetDepthStencilBuffer(hdCamera.frameSettings.IsEnabled(FrameSettingsField.MSAA)));
                         if ((hdCamera.frameSettings.IsEnabled(FrameSettingsField.Decals)) && (DecalSystem.m_DecalDatasCount > 0)) // enable d-buffer flag value is being interpreted more like enable decals in general now that we have clustered
@@ -2911,7 +2910,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                         	transparentRange = HDRenderQueue.k_RenderQueue_AllTransparent;
                             else
                                 transparentRange = HDRenderQueue.k_RenderQueue_AllTransparentWithLowRes;
-                    	}
+                        }
 
                         if (renderMotionVecForTransparent)
                         {
@@ -3223,7 +3222,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                     m_UpsampleTransparency.EnableKeyword("NEAREST_DEPTH");
                 }
                 m_UpsampleTransparency.SetTexture(HDShaderIDs._LowResTransparent, m_LowResTransparentBuffer);
-                m_UpsampleTransparency.SetTexture(HDShaderIDs._LowResDepthTexture, m_SharedRTManager.GetLowResDepthBuffer());
+                m_UpsampleTransparency.SetTexture(HDShaderIDs._LowResDepthTexture, m_SharedRTManager.GetLowResDepthBuffer());               
                 cmd.DrawProcedural(Matrix4x4.identity, m_UpsampleTransparency, 0, MeshTopology.Triangles, 3, 1, null);
             }
         }

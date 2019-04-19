@@ -344,7 +344,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
             screenSize = new Vector4(screenWidth, screenHeight, 1.0f / screenWidth, 1.0f / screenHeight);
             screenParams = new Vector4(screenSize.x, screenSize.y, 1 + screenSize.z, 1 + screenSize.w);
-
+            
             UpdateAllViewConstants(IsTAAEnabled());
             isFirstFrame = false;
 
@@ -403,7 +403,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
                 if ((currColorPyramidBufferSize.x != prevColorPyramidBufferSize.x) ||
                     (currColorPyramidBufferSize.y != prevColorPyramidBufferSize.y))
-            {
+                {
                     // A reallocation has happened, so the new texture likely contains garbage.
                     colorPyramidHistoryIsValid = false;
                 }
@@ -412,7 +412,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             Vector3Int currVolumetricBufferSize = Vector3Int.zero;
 
             if (numVolumetricBuffersAllocated != 0)
-                {
+            {
                 var rt = GetCurrentFrameRT((int)HDCameraFrameHistoryType.VolumetricLighting).rt;
 
                 currVolumetricBufferSize.x = rt.width;
@@ -422,14 +422,14 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 if ((currVolumetricBufferSize.x != prevVolumetricBufferSize.x) ||
                     (currVolumetricBufferSize.y != prevVolumetricBufferSize.y) ||
                     (currVolumetricBufferSize.z != prevVolumetricBufferSize.z))
-                    {
+                {
                     // A reallocation has happened, so the new texture likely contains garbage.
                     volumetricHistoryIsValid = false;
                 }
             }
 
             m_RecorderCaptureActions = CameraCaptureBridge.GetCaptureActions(camera);
-                    }
+        }
 
         void UpdateAntialiasing()
         {
@@ -452,29 +452,29 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 }
 #endif
                 else if (m_AdditionalCameraData != null)
-                    {
+                {
                     antialiasing = m_AdditionalCameraData.antialiasing;
                     if(antialiasing == AntialiasingMode.SubpixelMorphologicalAntiAliasing)
-                        {
+                    {
                         SMAAQuality = m_AdditionalCameraData.SMAAQuality;
                     }
-                        }
-                        else
+                }
+                else
                     antialiasing = AntialiasingMode.None;
             }
 
             if (antialiasing != AntialiasingMode.TemporalAntialiasing)
-                        {
+            {
                 taaFrameIndex = 0;
                 taaJitter = Vector4.zero;
-                        }
+            }
 
             // TODO: is this used?
             {
                 float t = taaFrameIndex * (0.5f * Mathf.PI);
                 taaFrameRotation = new Vector2(Mathf.Sin(t), Mathf.Cos(t));
-                    }
-                }
+            }
+        }
 
         void GetXrViewParameters(int xrViewIndex, out Matrix4x4 proj, out Matrix4x4 view, out Vector3 cameraPosition)
         {
@@ -520,10 +520,10 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             {
                 // Compute shaders always use the XR instancing path due to the lack of multi-compile
                 xrViewConstants[0] = mainViewConstants;
-                }
+            }
 
             xrViewConstantsGpu.SetData(xrViewConstants);
-            }
+        }
 
         void UpdateViewConstants(ref ViewConstants viewConstants, Matrix4x4 projMatrix, Matrix4x4 viewMatrix, Vector3 cameraPosition, bool jitterProjectionMatrix)
         {
@@ -758,7 +758,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 transform = transform * Matrix4x4.Scale(new Vector3(2.0f * screenSize.z, 2.0f * screenSize.w, 1.0f));
 
                 return transform.transpose;
-                    }
+            }
 
 #if UNITY_2019_1_OR_NEWER
             float verticalFoV = camera.GetGateFittedFieldOfView() * Mathf.Deg2Rad;
@@ -769,7 +769,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 #endif
 
             return HDUtils.ComputePixelCoordToWorldSpaceViewDirectionMatrix(verticalFoV, lensShift, screenSize, viewConstants.viewMatrix, false);
-            }
+        }
 
         // Warning: different views can use the same camera!
         public long GetViewID()
