@@ -27,7 +27,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             => new RenderOutputProperties(
                 new Vector2Int(hdCamera.actualWidth, hdCamera.actualHeight),
                 hdCamera.camera.cameraToWorldMatrix,
-                hdCamera.projMatrix
+                hdCamera.mainViewConstants.projMatrix
             );
     }
 }

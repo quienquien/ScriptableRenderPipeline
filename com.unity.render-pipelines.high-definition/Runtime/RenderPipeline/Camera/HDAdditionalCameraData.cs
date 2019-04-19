@@ -114,21 +114,31 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         {
             None,
             FastApproximateAntialiasing,
-            TemporalAntialiasing
+            TemporalAntialiasing,
+            SubpixelMorphologicalAntiAliasing
         }
+
+        public enum SMAAQualityLevel
+        {
+            Low,
+            Medium,
+            High
+        }
+
 
         public ClearColorMode clearColorMode = ClearColorMode.Sky;
         [ColorUsage(true, true)]
         public Color backgroundColorHDR = new Color(0.025f, 0.07f, 0.19f, 0.0f);
         public bool clearDepth = true;
-        
+
 
         [Tooltip("LayerMask HDRP uses for Volume interpolation for this Camera.")]
-        public LayerMask volumeLayerMask = -1;
+        public LayerMask volumeLayerMask = 1;
 
         public Transform volumeAnchorOverride;
 
         public AntialiasingMode antialiasing = AntialiasingMode.None;
+        public SMAAQualityLevel SMAAQuality = SMAAQualityLevel.High;
         public bool dithering = false;
         public bool stopNaNs = false;
 
@@ -150,7 +160,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         // Event used to override HDRP rendering for this particular camera.
         public event Action<ScriptableRenderContext, HDCamera> customRender;
         public bool hasCustomRender { get { return customRender != null; } }
-        
+
         [SerializeField, FormerlySerializedAs("renderingPathCustomFrameSettings")]
         FrameSettings m_RenderingPathCustomFrameSettings = FrameSettings.defaultCamera;
         public FrameSettingsOverrideMask renderingPathCustomFrameSettingsOverrideMask;
@@ -160,7 +170,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
         AOVRequestDataCollection m_AOVRequestDataCollection = new AOVRequestDataCollection(null);
 
-        /// <summary>Set frame passes to use.</summary>
+        /// <summary>Set AOV requests to use.</summary>
         /// <param name="aovRequests">Describes the requests to execute.</param>
         /// <example>
         /// <code>

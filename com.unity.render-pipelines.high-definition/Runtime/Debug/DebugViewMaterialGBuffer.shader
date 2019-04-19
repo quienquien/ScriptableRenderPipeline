@@ -33,22 +33,28 @@ Shader "Hidden/HDRP/DebugViewMaterialGBuffer"
             struct Attributes
             {
                 uint vertexID : SV_VertexID;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct Varyings
             {
                 float4 positionCS : SV_POSITION;
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             Varyings Vert(Attributes input)
             {
                 Varyings output;
+                UNITY_SETUP_INSTANCE_ID(input);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
                 output.positionCS = GetFullScreenTriangleVertexPosition(input.vertexID);
                 return output;
             }
 
             float4 Frag(Varyings input) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+
                 // input.positionCS is SV_Position
                 float depth = LoadCameraDepth(input.positionCS.xy);
                 PositionInputs posInput = GetPositionInput(input.positionCS.xy, _ScreenSize.zw, depth, UNITY_MATRIX_I_VP, UNITY_MATRIX_V);
@@ -61,6 +67,13 @@ Shader "Hidden/HDRP/DebugViewMaterialGBuffer"
                 float3 result = float3(-666.0, 0.0, 0.0);
                 bool needLinearToSRGB = false;
 
+                // Reminder: _DebugViewMaterialArray[i]
+                //   i==0 -> the size used in the buffer
+                //   i>0  -> the index used (0 value means nothing)
+                // The index stored in this buffer could either be
+                //   - a gBufferIndex (always stored in _DebugViewMaterialArray[1] as only one supported)
+                //   - a property index which is different for each kind of material even if reflecting the same thing (see MaterialSharedProperty)
+                // So here if the buffer is of size zero, it is the same as if we give in a 0 buffer index.
                 int bufferIndex = int(_DebugViewMaterialArray[0]) >= 1 ? int(_DebugViewMaterialArray[1]) : 0;
                 if (bufferIndex == DEBUGVIEWGBUFFER_DEPTH)
                 {

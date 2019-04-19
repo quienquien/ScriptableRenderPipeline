@@ -52,7 +52,16 @@ float4 Frag(PackedVaryingsToPS packedInput) : SV_Target
 
 #ifdef DEBUG_DISPLAY
     // Same code in ShaderPassForward.shader
-    for (int index = 1; index <= int(_DebugViewMaterialArray[0]); index++)
+    // Reminder: _DebugViewMaterialArray[i]
+    //   i==0 -> the size used in the buffer
+    //   i>0  -> the index used (0 value means nothing)
+    // The index stored in this buffer could either be
+    //   - a gBufferIndex (always stored in _DebugViewMaterialArray[1] as only one supported)
+    //   - a property index which is different for each kind of material even if reflecting the same thing (see MaterialSharedProperty)
+    int bufferSize = int(_DebugViewMaterialArray[0]);
+    // Loop through the whole buffer
+    // Works because GetSurfaceDataDebug will do nothing if the index is not a known one
+    for (int index = 1; index <= bufferSize; index++)
     {
         int indexMaterialProperty = int(_DebugViewMaterialArray[index]);
         if (indexMaterialProperty != 0)

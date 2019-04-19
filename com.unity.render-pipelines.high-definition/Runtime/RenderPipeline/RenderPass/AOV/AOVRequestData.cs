@@ -92,7 +92,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             if (index == -1)
                 return;
 
-            HDUtils.BlitCameraTexture(cmd, camera, source, targets[index]);
+            HDUtils.BlitCameraTexture(cmd, source, targets[index]);
         }
 
         /// <summary>Execute the frame pass callback. It assumes that the textures are properly initialized and filled.</summary>

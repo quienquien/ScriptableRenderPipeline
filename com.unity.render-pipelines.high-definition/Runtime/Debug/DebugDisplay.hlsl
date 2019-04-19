@@ -12,7 +12,6 @@
 CBUFFER_START(UnityDebugDisplay)
 // Set of parameters available when switching to debug shader mode
 int _DebugLightingMode; // Match enum DebugLightingMode
-int _DebugLightHierarchyMode; // Match enum DebugLightHierarchyMode
 int _DebugShadowMapMode;
 float _DebugViewMaterialArray[11]; // Contain the id (define in various materialXXX.cs.hlsl) of the property to display
 int _DebugMipMapMode; // Match enum DebugMipMapMode
@@ -32,6 +31,7 @@ float4 _DebugLightingMaterialValidatePureMetalColor;
 float4 _MousePixelCoord;  // xy unorm, zw norm
 float4 _MouseClickPixelCoord;  // xy unorm, zw norm
 float _DebugExposure;
+uint _DebugContactShadowLightIndex;
 CBUFFER_END
 
 // Local shader variables
