@@ -123,6 +123,9 @@ EditorBuildSettings:
     path: Assets/GraphicTests/Scenes/1x_Materials/1705_Decals-stress-test.unity
     guid: 0e963f94367e3fe4a8c36b77f2e12a8b
   - enabled: 1
+    path: Assets/GraphicTests/Scenes/1x_Materials/1706_DecalsSG.unity
+    guid: 4ead319809e7c8544ad909dcf8fa3c4c
+  - enabled: 1
     path: Assets/GraphicTests/Scenes/1x_Materials/1800_Classification.unity
     guid: 5043daebf48d1b740bb244b9a55508ef
   - enabled: 1
