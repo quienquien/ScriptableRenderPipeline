@@ -16,9 +16,9 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         [GenerateHLSL(PackingRules.Exact, false)]
         public struct ViewConstants
         {
-        public Matrix4x4 viewMatrix;
+            public Matrix4x4 viewMatrix;
             public Matrix4x4 invViewMatrix;
-        public Matrix4x4 projMatrix;
+            public Matrix4x4 projMatrix;
             public Matrix4x4 invProjMatrix;
             public Matrix4x4 viewProjMatrix;
             public Matrix4x4 invViewProjMatrix;
@@ -31,11 +31,11 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // Utility matrix (used by sky) to map screen position to WS view direction
             public Matrix4x4 pixelCoordToViewDirWS;
 
-        public Vector3   worldSpaceCameraPos;
+            public Vector3 worldSpaceCameraPos;
             public float pad0;
             public Vector3 worldSpaceCameraPosViewOffset;
             public float pad1;
-        public Vector3   prevWorldSpaceCameraPos;
+            public Vector3 prevWorldSpaceCameraPos;
             public float pad2;
         };
 
@@ -65,7 +65,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         public VolumetricLightingSystem.VBufferParameters[] vBufferParams; // Double-buffered
 
         // XRTODO: double-wide cleanup
-        public Vector4      textureWidthScaling; // (2.0, 0.5) for SinglePassDoubleWide (stereo) and (1.0, 1.0) otherwise
+        public Vector4  textureWidthScaling; // (2.0, 0.5) for SinglePassDoubleWide (stereo) and (1.0, 1.0) otherwise
 
         // XR instanced views (hardware-accelerated single-pass instancing or multiview)
         ViewConstants[] xrViewConstants;
@@ -273,13 +273,13 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // Handle memory allocation.
             {
                 bool isColorPyramidHistoryRequired = m_frameSettings.IsEnabled(FrameSettingsField.SSR); // TODO: TAA as well
-                bool isVolumetricHistoryRequired   = m_frameSettings.IsEnabled(FrameSettingsField.Volumetrics) && m_frameSettings.IsEnabled(FrameSettingsField.ReprojectionForVolumetrics);
+                bool isVolumetricHistoryRequired = m_frameSettings.IsEnabled(FrameSettingsField.Volumetrics) && m_frameSettings.IsEnabled(FrameSettingsField.ReprojectionForVolumetrics);
 
                 int numColorPyramidBuffersRequired = isColorPyramidHistoryRequired ? 2 : 1; // TODO: 1 -> 0
-                int numVolumetricBuffersRequired   = isVolumetricHistoryRequired   ? 2 : 0; // History + feedback
+                int numVolumetricBuffersRequired = isVolumetricHistoryRequired ? 2 : 0; // History + feedback
 
                 if ((numColorPyramidBuffersAllocated != numColorPyramidBuffersRequired) ||
-                    (numVolumetricBuffersAllocated   != numVolumetricBuffersRequired))
+                    (numVolumetricBuffersAllocated != numVolumetricBuffersRequired))
                 {
                     // Reinit the system.
                     colorPyramidHistoryIsValid = false;
@@ -299,7 +299,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
                     // Mark as init.
                     numColorPyramidBuffersAllocated = numColorPyramidBuffersRequired;
-                    numVolumetricBuffersAllocated   = numVolumetricBuffersRequired;
+                    numVolumetricBuffersAllocated = numVolumetricBuffersRequired;
                 }
             }
 
