@@ -9,7 +9,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         // Owned
         private List<AOVRequestData> m_AOVRequestDataData;
 
-        /// <summary>Add a frame pass.</summary>
+        /// <summary>Add a AOV request.</summary>
         /// <param name="settings">Settings to use for this frame pass.</param>
         /// <param name="bufferAllocator">An allocator for each buffer.</param>
         /// <param name="includedLightList">If non null, only these lights will be rendered, if none, all lights will be rendered.</param>
