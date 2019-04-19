@@ -18,7 +18,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         /// <returns></returns>
         public AOVRequestBuilder Add(
             AOVRequest settings,
-            FramePassBufferAllocator bufferAllocator,
+            AOVRequestBufferAllocator bufferAllocator,
             List<GameObject> includedLightList,
             AOVBuffers[] aovBuffers,
             FramePassCallback callback

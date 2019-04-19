@@ -10,7 +10,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
     /// <param name="buffers">The buffers that has been requested.</param>
     /// <param name="outputProperties">Several properties that were computed for this frame.</param>
     public delegate void FramePassCallback(CommandBuffer cmd, List<RTHandleSystem.RTHandle> buffers, RenderOutputProperties outputProperties);
-    public delegate RTHandleSystem.RTHandle FramePassBufferAllocator(AOVBuffers aovBufferId);
+    public delegate RTHandleSystem.RTHandle AOVRequestBufferAllocator(AOVBuffers aovBufferId);
 
     /// <summary>Describes a frame pass.</summary>
     public struct AOVRequestData
@@ -26,7 +26,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         private AOVRequest m_Settings;
         private AOVBuffers[] m_RequestedAOVBuffers;
         private FramePassCallback m_Callback;
-        private readonly FramePassBufferAllocator m_BufferAllocator;
+        private readonly AOVRequestBufferAllocator m_BufferAllocator;
         private List<GameObject> m_LightFilter;
 
         /// <summary>Whether this frame pass is valid.</summary>
@@ -40,7 +40,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         /// <param name="callback">The callback to execute.</param>
         public AOVRequestData(
             AOVRequest settings,
-            FramePassBufferAllocator bufferAllocator,
+            AOVRequestBufferAllocator bufferAllocator,
             List<GameObject> lightFilter,
             AOVBuffers[] requestedAOVBuffers,
             FramePassCallback callback
